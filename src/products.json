@@ -1,0 +1,38 @@
+[
+    {   
+        "index":0,
+        "product": "Pixel 4",
+        "price": "Rs.1000",
+        "desc": "A great phone by Google. Runs on Android",
+        "image": "./pixel4.jpg",
+        "size": "6.5 in",
+        "camera":"15 MP"
+    },
+    {
+        "index":1,
+        "product": "Galaxy S10",
+        "price": "Rs.2000",
+        "desc": "An awesome phone by Samsung. Runs on Android",
+        "image": "./galaxys10.jpg",
+        "size": "6.0 in",
+        "camera":"25 MP"
+    },
+    {
+        "index":2,
+        "product": "iPhone XS",
+        "price": "Rs.4000",
+        "desc": "A pricey phone by Apple but well made. Runs on iOS",
+        "image":"./iphonexs.jpg",
+        "size": "5.5 in",
+        "camera":"12 MP"
+    },
+    {
+        "index":3,
+        "product": "iPhone 11 ",
+        "price": "Rs.5000",
+        "desc": "A very pricey phone by Apple but well made. Runs on iOS",
+        "image":"./iphone11.jpg",
+        "camera":"15 MP",
+        "size": "5.6 in"    
+    }
+]

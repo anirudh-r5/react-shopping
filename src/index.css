@@ -17,6 +17,13 @@ body{
     color: white;
     padding: 1px 0 0 15px
 }
+.filter{
+    padding: 10px 0 10px 0;
+}
+.filter label{
+    display: block;
+    padding: 3px 0 3px 0;
+}
 .ctn1{
     position: absolute;
     color: rgb(200, 200, 200);

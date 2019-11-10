@@ -2,45 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import prodData from './products.json'
+import Filter from './filter.js'
 
 
 function Item(props) {
 	var cap = props.cap ? "Remove" : "Compare"
 	return (
 		<div className="itemCtn">
-			<img src={require(`${props.value.image}`)} alt="Unavailable"/>
+			<img src={require(`${props.value.image}`)} alt="Unavailable" />
 			<div className="hoverlay"></div>
 			<div className="compCtn" onClick={(e) => props.onClick(e, props.value)}>{cap}</div>
-			<div className="cap1">{props.value.price}</div>
+			<div className="cap1">{"₹" + props.value.price}</div>
 			<div className="cap2">{props.value.product}</div>
 			<div className="cap3">{props.value.desc}</div>
 		</div>
 	);
-}
-class Filter extends React.Component {
-	constructor(props){
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-	}
-	handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-  }
-	render() {
-		return (
-			<div className="filter ctn0">
-				<h2>Filter:</h2>
-				<form>
-					<label>Manufacturer:</label>
-				</form>
-			</div>
-		)
-	}
 }
 class Compare extends React.Component {
 	render() {
@@ -48,12 +24,11 @@ class Compare extends React.Component {
 		var prices = []
 		var screen = []
 		var cam = []
-		console.log(this.props.tab)
 		this.props.tab.forEach((ele) => {
 			heads.push(<th>{ele.product}</th>)
-			prices.push(<td>{ele.price}</td>)
-			screen.push(<td>{ele.size}</td>)
-			cam.push(<td>{ele.camera}</td>)
+			prices.push(<td>{"₹" + ele.price}</td>)
+			screen.push(<td>{ele.size + " in"}</td>)
+			cam.push(<td>{ele.camera + " MP"}</td>)
 		})
 		return (<div className="ctn3">
 			<table className="table">
@@ -88,7 +63,14 @@ class ItemList extends React.Component {
 			items: null,
 			compare: Array(prodData.length).fill(false),
 			tabs: Array(prodData.length),
-			count: 0
+			count: 0,
+			notItems: [],
+			prevState:{
+				prods: [],
+				cams: null,
+				prices: null,
+				sizes: null
+			}
 		}
 		this.state.items = prodData
 	}
@@ -110,7 +92,6 @@ class ItemList extends React.Component {
 					this.setState({ compare: compare, tabs: tabs, count: count - 1 })
 				}
 			})
-
 		}
 	}
 
@@ -124,6 +105,35 @@ class ItemList extends React.Component {
 		);
 	}
 
+	filterItem = (i) => {
+		const prevState	= this.state.prevState
+		const items = this.state.items
+		const notItems = this.state.notItems
+		if (i.prods !== null) {
+			var flag = 0
+			for (let c = items.length - 1; c >= 0; c--) {
+				if (i.prods === items[c].manufacturer) {
+					notItems.push(items[c])
+					items.splice(c, 1)
+					this.setState({ items: items, notItems: notItems, prevState:{prods:prevState.prods.push(i.prods)} })
+					flag = 1
+				}
+			}
+			if (flag === 0) {
+				for (let c = notItems.length - 1; c >= 0; c--) {
+					if (i.prods === notItems[c].manufacturer) {
+						items.splice(notItems[c].index,0,notItems[c])
+						notItems.splice(c, 1)
+						this.setState({ items: items, notItems: notItems,})
+					}
+				}
+			}
+		}
+		else if(i.prices!==null){
+			
+		}
+	}
+
 	render() {
 		var ele = []
 		var tab = this.state.count === 0 ? "" : <Compare tab={this.state.tabs} />
@@ -133,7 +143,7 @@ class ItemList extends React.Component {
 				<div className="ctn1">
 					<h2>Compare Items!</h2>
 				</div>
-				<Filter value={prodData}/>
+				<Filter updater={this.filterItem} />
 				<div className="ctn2">
 					{ele}
 				</div>

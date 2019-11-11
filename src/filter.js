@@ -29,32 +29,33 @@ class Filter extends React.Component {
                     sizes: sizes,
                     cams: cams,
                     prices: prices,
+                    stateProds: null,
+                    statePrices: null,
+                    stateCams: null,
+                    stateSizes: null,
+
                 }
             }
         })
     }
     renderProd(ele) {
         return (
-            <label><input type="checkbox" value={ele} onChange={this.handleChange} defaultChecked="true"/>{ele}</label>
+            <label><input type="checkbox" value={ele} onChange={this.handleChange} defaultChecked="true" />{ele}</label>
         )
     }
-    handleChange(event) {
-        var ele=event.target
-        var temp={prods: null,
-            sizes: null,
-            cams: null,
-            prices: null};
-        if(ele.type==="checkbox"){
-            temp.prods=ele.value
+    handleChange = (event) => {
+        var ele = event.target
+        if (ele.type === "checkbox") {
+            if (ele.state.checked) { this.setState({ stateProds: ele.value }) }
         }
-        else if(ele.name==="price"){
-            temp.prices=ele.value
+        else if (ele.name === "price") {
+            temp.prices = ele.value
         }
-        else if(ele.name==="size"){
-            temp.sizes=ele.value
+        else if (ele.name === "size") {
+            temp.sizes = ele.value
         }
-        else{
-            temp.cams=ele.value
+        else {
+            temp.cams = ele.value
         }
         this.props.updater(temp)
     }

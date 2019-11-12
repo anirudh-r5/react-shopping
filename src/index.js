@@ -64,13 +64,6 @@ class ItemList extends React.Component {
 			compare: Array(prodData.length).fill(false),
 			tabs: Array(prodData.length),
 			count: 0,
-			notItems: [],
-			prevState:{
-				prods: [],
-				cams: null,
-				prices: null,
-				sizes: null
-			}
 		}
 		this.state.items = prodData
 	}
@@ -106,32 +99,22 @@ class ItemList extends React.Component {
 	}
 
 	filterItem = (i) => {
-		const prevState	= this.state.prevState
-		const items = this.state.items
-		const notItems = this.state.notItems
-		if (i.prods !== null) {
-			var flag = 0
-			for (let c = items.length - 1; c >= 0; c--) {
-				if (i.prods === items[c].manufacturer) {
-					notItems.push(items[c])
-					items.splice(c, 1)
-					this.setState({ items: items, notItems: notItems, prevState:{prods:prevState.prods.push(i.prods)} })
-					flag = 1
-				}
-			}
-			if (flag === 0) {
-				for (let c = notItems.length - 1; c >= 0; c--) {
-					if (i.prods === notItems[c].manufacturer) {
-						items.splice(notItems[c].index,0,notItems[c])
-						notItems.splice(c, 1)
-						this.setState({ items: items, notItems: notItems,})
-					}
-				}
+		var ele = []
+		for (let c = prodData.length - 1; c >= 0; c--) {
+			if ( prodData[c].price<=i.prices  &&  prodData[c].camera<=i.cams  &&  prodData[c].size<=i.sizes ) {
+				ele.push(prodData[c])
 			}
 		}
-		else if(i.prices!==null){
-			
+		for(let o = ele.length-1;o>=0;o--){
+			i.prods.forEach((element)=>{
+				console.log(ele[o])
+				if(element===ele[o].manufacturer){
+					ele.splice(o,1)
+				}
+			})
 		}
+		console.log(i)
+		this.setState({ items: ele })
 	}
 
 	render() {
@@ -141,7 +124,7 @@ class ItemList extends React.Component {
 		return (
 			<>
 				<div className="ctn1">
-					<h2>Compare Items!</h2>
+					<h2>The Mobile Storep</h2>
 				</div>
 				<Filter updater={this.filterItem} />
 				<div className="ctn2">

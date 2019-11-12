@@ -29,10 +29,10 @@ class Filter extends React.Component {
                     sizes: sizes,
                     cams: cams,
                     prices: prices,
-                    stateProds: null,
-                    statePrices: null,
-                    stateCams: null,
-                    stateSizes: null,
+                    stateProds: [],
+                    statePrices: 5000,
+                    stateCams: 25,
+                    stateSizes: 6.5,
 
                 }
             }
@@ -46,17 +46,22 @@ class Filter extends React.Component {
     handleChange = (event) => {
         var ele = event.target
         if (ele.type === "checkbox") {
-            if (ele.state.checked) { this.setState({ stateProds: ele.value }) }
+            if (!ele.checked) { this.state.stateProds.push(ele.value) }
+            else{ this.state.stateProds.splice(this.state.stateProds.indexOf(ele.value),1)}
         }
         else if (ele.name === "price") {
-            temp.prices = ele.value
+            this.setState({statePrices:ele.value})
         }
         else if (ele.name === "size") {
-            temp.sizes = ele.value
+            this.setState({stateSizes:ele.value})
         }
         else {
-            temp.cams = ele.value
+            this.setState({stateCams:ele.value})
         }
+        var temp = {prods: this.state.stateProds,
+            prices: this.state.statePrices,
+            cams: this.state.stateCams,
+            sizes: this.state.stateSizes}
         this.props.updater(temp)
     }
 
@@ -73,17 +78,17 @@ class Filter extends React.Component {
                     </div>
                     <div className="filter">
                         <label>Price:<label>
-                            <input type="range" name="price" onChange={this.handleChange} max={this.state.prices[this.state.prices.length - 1]} min={this.state.prices[0]} step="500" /></label>
+                            <input type="range" name="price" onChange={this.handleChange} max="8000" min={this.state.prices[0]} step="500" defaultValue="5000"/></label>
                         </label>
                     </div>
                     <div className="filter">
                         <label>Size:<label>
-                            <input type="range" name="size" onChange={this.handleChange} max={this.state.sizes[this.state.sizes.length - 1]} min={this.state.sizes[0]} step="0.2" /></label>
+                            <input type="range" name="size" onChange={this.handleChange} max="7.0" min={this.state.sizes[0]} step="0.2" defaultValue="6.5"/></label>
                         </label>
                     </div>
                     <div className="filter">
                         <label>Camera:<label>
-                            <input type="range" name="cam" onChange={this.handleChange} max={this.state.cams[this.state.cams.length - 1]} min={this.state.cams[0]} step="2" /></label>
+                            <input type="range" name="cam" onChange={this.handleChange} max="28" min="10" step="2" defaultValue="28"/></label>
                         </label>
                     </div>
                 </form>

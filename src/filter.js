@@ -80,16 +80,19 @@ class Filter extends React.Component {
                         <label>Price:<label>
                             <input type="range" name="price" onChange={this.handleChange} max="8000" min={this.state.prices[0]} step="500" defaultValue="5000"/></label>
                         </label>
+        <label className="fLabel">{"Less than ₹"+this.state.statePrices}</label>
                     </div>
                     <div className="filter">
                         <label>Size:<label>
                             <input type="range" name="size" onChange={this.handleChange} max="7.0" min={this.state.sizes[0]} step="0.2" defaultValue="6.5"/></label>
                         </label>
+                        <label className="fLabel">{"Less than "+this.state.stateSizes+"in"}</label>
                     </div>
                     <div className="filter">
                         <label>Camera:<label>
                             <input type="range" name="cam" onChange={this.handleChange} max="28" min="10" step="2" defaultValue="28"/></label>
                         </label>
+                        <label className="fLabel">{"Less than "+this.state.stateCams+"MP"}</label>
                     </div>
                 </form>
             </div>
